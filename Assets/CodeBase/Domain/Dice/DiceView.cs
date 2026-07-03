@@ -11,11 +11,11 @@ namespace CodeBase.Domain.Dice
         [SerializeField] private Image _stateImage;
         [SerializeField] private Image _pointImage;
         
-        private DiceDragDropController _dragDropController;
+        private IDiceDragHandler _dragHandler;
         
-        public void Bind(DiceDragDropController dragDropController)
+        public void Bind(IDiceDragHandler dragHandler)
         {
-            _dragDropController = dragDropController;
+            _dragHandler = dragHandler;
         }
 
         public void Render(DiceStateType stateType, DicePointType pointType)
@@ -28,30 +28,30 @@ namespace CodeBase.Domain.Dice
         {
             //Debug.Log("BeginDrag");
     
-            if (_dragDropController == null)
+            if (_dragHandler == null)
                 return;
 
-            _dragDropController.BeginDrag(this);
+            _dragHandler.BeginDrag(this);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             //Debug.Log("Dragging");
 
-            if (_dragDropController == null)
+            if (_dragHandler == null)
                 return;
 
-            _dragDropController.Drag(eventData.position);
+            _dragHandler.Drag(eventData.position);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
            // Debug.Log("EndDrag");
 
-            if (_dragDropController == null)
+            if (_dragHandler == null)
                 return;
 
-            _dragDropController.EndDrag(eventData.position);
+            _dragHandler.EndDrag(eventData.position);
         }
 
         private void SetStateSprite(DiceStateType state) =>

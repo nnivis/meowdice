@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace CodeBase.Services.Interaction
 {
-    public class DiceDragDropController : MonoBehaviour
+    public class DiceDragDropController : MonoBehaviour, IDiceDragHandler
     {
         
         [SerializeField] private RectTransform _dragRoot;

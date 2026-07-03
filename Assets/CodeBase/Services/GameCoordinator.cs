@@ -72,12 +72,12 @@ namespace CodeBase.Services
                 localInfo.SkinId);
 
             _playerContext = new MatchPlayerContext(localInfo, opponentInfo);
-            _matchPresenter.StartMatch(_match, _playerContext); // наверное, оптимальней было бы сделать обертку
             
             var controllers = _controllerFactory.CreateControllers(config, _match);
             var localController = controllers[config.Participants.Local] as LocalHumanPlayerController;
             
             _diceDragDropController.Init(localController);
+            _matchPresenter.StartMatch(_match, _playerContext, _diceDragDropController);
             
             var turnSystem = new TurnSystem(_match, controllers, 1);
             _gameFlow = new GameFlow(_match, turnSystem);

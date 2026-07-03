@@ -13,14 +13,13 @@ namespace CodeBase.Domain.Board
 
         public void ShowDice(
             DiceStateType stateType,
-            DicePointType pointType,
-            DiceDragDropController dragDropController,
+            DicePointType pointType, IDiceDragHandler dragHandler,
             bool isInteractable)
         {
             EnsureDiceView();
 
             _diceView.Render(stateType, pointType);
-            _diceView.Bind(isInteractable ? dragDropController : null);
+            _diceView.Bind(isInteractable ? dragHandler : null);
         }
 
         private void EnsureDiceView()

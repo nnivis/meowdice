@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CodeBase.Data.PlayerDataComponents;
+using CodeBase.Domain.Dice;
 using CodeBase.Domain.Match;
 using CodeBase.Domain.Match.Data;
 using CodeBase.Services.Interaction;
@@ -15,16 +16,18 @@ namespace CodeBase.Domain.Board
         [SerializeField] private DiceDragDropController _diceDragDropController;
 
         private readonly Dictionary<PlayerSlot, BoardView> _viewBySlot = new();
+        private IDiceDragHandler _dragHandler;
 
         private IMatchReadModel _model;
         private MatchPlayerContext _playerContext;
 
-        public void Bind(IMatchReadModel model, MatchPlayerContext playerContext)
+        public void Bind(IMatchReadModel model, MatchPlayerContext playerContext, IDiceDragHandler dragHandler)
         {
             Unbind();
 
             _model = model;
             _playerContext = playerContext;
+            _dragHandler = dragHandler;
 
             _viewBySlot[PlayerSlot.Local] = _playerBoardView;
             _viewBySlot[PlayerSlot.Opponent] = _opponentBoardView;
@@ -47,6 +50,7 @@ namespace CodeBase.Domain.Board
 
             _model = null;
             _playerContext = null;
+            _dragHandler = null;
             _viewBySlot.Clear();
         }
 
@@ -67,7 +71,7 @@ namespace CodeBase.Domain.Board
                 return;
             }
 
-            view.ShowDice(dice.DiceStateType, dice.DicePointType, _diceDragDropController, slot == PlayerSlot.Local);
+            view.ShowDice(dice.DiceStateType, dice.DicePointType, _dragHandler, slot == PlayerSlot.Local);
         }
         private void OnDestroy() => Unbind();
     }

@@ -1,4 +1,5 @@
-﻿using CodeBase.Domain.Match.Data;
+﻿using CodeBase.Domain.Dice;
+using CodeBase.Domain.Match.Data;
 using CodeBase.UI;
 using UnityEngine;
 
@@ -11,14 +12,14 @@ namespace CodeBase.Domain.Match
         private IMatchReadModel _model;
         private MatchPlayerContext _playerContext;
 
-        public void StartMatch(IMatchReadModel model, MatchPlayerContext playerContext)
+        public void StartMatch(IMatchReadModel model, MatchPlayerContext playerContext , IDiceDragHandler dragHandler)
         {
             StopMatch();
 
             _model = model;
             _playerContext = playerContext;
 
-            _uiRoot.Boards.Bind(_model, _playerContext);
+            _uiRoot.Boards.Bind(_model, _playerContext, dragHandler);
             _uiRoot.Field.Bind(_model, _playerContext);
             _uiRoot.Characters.Bind(_playerContext);
         }
